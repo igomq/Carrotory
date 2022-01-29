@@ -1,43 +1,28 @@
 plugins {
     id 'java'
     id "com.github.johnrengelman.shadow" version "5.1.0"
-    id 'kr.entree.spigradle' version '2.3.4'
 }
 
-group 'io.github.igomq.carrotory'
-version '0.0.1-EXPERIMENTAL'
+group 'io.github.igomq'
+version '0.0.2'
 
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
     spigotmc()
-    sonatype()
 
     maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
     maven { url = 'https://oss.sonatype.org/content/repositories/central' }
-}
-
-processResources {
-    filesMatching('**plugin.yml') {
-        expand(
-                'version': project.property('version')
-        )
-    }
-    filesMatching('**info.properties') {
-        expand(
-                'version': project.property('version')
-        )
-    }
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 
-    compileOnly spigot('1.16.5')
+    compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
+//    compileOnly("org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT")
 }
-
 jar {
     finalizedBy shadowJar
 
@@ -45,9 +30,15 @@ jar {
         attributes 'Main-Class': 'io.github.igomq.carrotory.Carrotory'
     }
     from {
-        configurations.compile.collect {
+        configurations.runtimeClasspath.collect {
             it.isDirectory() ? it : zipTree(it)
         }
+    }
+}
+
+processResources {
+    filesMatching("**/*.yml") {
+        expand(project.properties)
     }
 }
 

@@ -1,18 +1,23 @@
 package io.github.igomq.carrotory;
 
+import io.github.igomq.carrotory.GUI.AnvilGUI;
+import io.github.igomq.carrotory.GUI.EnchantmentGUI;
+import io.github.igomq.carrotory.Listener.PlayerInteractionListener;
+import io.github.igomq.carrotory.Utility.DataFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import static io.github.igomq.carrotory.Utility.GetProperties.getProperty;
+import static io.github.igomq.carrotory.Utility.DataFile.isConfigAlreadySetUp;
 
 public class Carrotory extends JavaPlugin {
-    public static InputStream me = Carrotory.class.getClassLoader().getResourceAsStream("info.properties");
-
-    protected String version;
+    public static boolean[] pluginConfig;
+    public static Carrotory carrotory;
+    {
+        carrotory = this;
+    }
 
     @Override
     public void onEnable() {
@@ -29,16 +34,21 @@ public class Carrotory extends JavaPlugin {
                 " | (__/ _` | '_| '_/ _ \\  _/ _ \\ '_| || |\n" +
                 "  \\___\\__,_|_| |_| \\___/\\__\\___/_|  \\_, |\n" +
                 "                                    |__/ ");
-        Bukkit.broadcastMessage(ChatColor.GREEN + "Carrotory Plugin Version " + version);
+        Bukkit.broadcastMessage(ChatColor.GREEN + "Carrotory Plugin");
         Bukkit.broadcastMessage(ChatColor.GREEN + "Developer GomQ, Github https://github.com/igomq");
     }
 
     @Override
     public void onDisable() {
-        Bukkit.broadcastMessage(ChatColor.RED + "Disabling Carrotory Plugin ["+version+"]");
+        Bukkit.broadcastMessage(ChatColor.RED + "Disabling Carrotory Plugin");
     }
 
     public void initializePlugin() throws IOException {
-        version = getProperty("version");
+        if (!isConfigAlreadySetUp()) DataFile.setupConfigFile();
+        pluginConfig = DataFile.loadConfig();
+
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractionListener(), this);
+        Bukkit.getPluginManager().registerEvents(new AnvilGUI(), this);
+        Bukkit.getPluginManager().registerEvents(new EnchantmentGUI(), this);
     }
 }
