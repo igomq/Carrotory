@@ -23,8 +23,18 @@ public class EnchantmentGUI implements Listener {
     }
 
     public void initInventory() {
-        // TODO Setup Enchanting Table Inventory
-        // enchantmentInventory.addItem(createGUIItem(Material.LIGHT_GRAY_STAINED_GLASS_PANE, "", ""));
+        for (int i=0; i<9; i++) {
+            if (i>=3 && i<6) {
+                Material material = i==3 ? Material.GREEN_STAINED_GLASS_PANE : i==4 ? Material.AIR : Material.RED_STAINED_GLASS_PANE;
+                String itemName = "";
+                if (i!=4) itemName = i==3 ? "Reinforce" : "Cancel";
+
+                enchantmentInventory.addItem(createGUIItem(material, itemName, ""));
+                continue;
+            }
+
+            enchantmentInventory.addItem(createGUIItem(Material.ENCHANTING_TABLE, "", ""));
+        }
     }
 
     protected ItemStack createGUIItem (Material material, String itemName, String itemLore) {

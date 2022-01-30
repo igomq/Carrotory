@@ -3,7 +3,8 @@
 /build/
 /build/classes/java/main/
 /debug/
-/gradle/
+/gradle/wrapper/
+/lib/
 /.idea/
 
 gradlew.bat
