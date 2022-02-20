@@ -19,9 +19,12 @@ public class DataFile {
         return configFile.exists();
     }
 
-    @SuppressWarnings("deprecated")
+    @SuppressWarnings("deprecation")
     public static void setupConfigFile() throws IOException {
+        if (!carrotory.getDataFolder().exists()) carrotory.getDataFolder().mkdir();
         Properties props = new Properties();
+
+        if(!configFile.exists()) configFile.createNewFile();
         props.load(new FileInputStream(configFile.getPath()));
 
         for (String[] x : args) {

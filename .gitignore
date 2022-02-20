@@ -7,5 +7,9 @@
 /lib/
 /.idea/
 
+# Test Directory
+/server/
+/server/.server/
+
 gradlew.bat
 gradlew

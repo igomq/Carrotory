@@ -1,4 +1,4 @@
-package io.github.igomq.carrotory.Utility;
+package io.github.igomq.carrotory.Info;
 
 import org.bukkit.Material;
 

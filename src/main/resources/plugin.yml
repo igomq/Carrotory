@@ -1,5 +1,5 @@
 main: io.github.igomq.carrotory.Carrotory
-version: ${version}
+version: 0.2.1
 name: Carrotory
 author: GomQ
 description: MapleStory in Minecraft
