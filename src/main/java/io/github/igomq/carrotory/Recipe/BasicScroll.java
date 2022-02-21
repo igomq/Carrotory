@@ -13,6 +13,8 @@ import static io.github.igomq.carrotory.Info.Scrolls.Lores;
 import static io.github.igomq.carrotory.Info.Scrolls.itemNames;
 
 public class BasicScroll {
+    public static ItemStack itemScroll;
+
     @SuppressWarnings("deprecation")
     public static ShapedRecipe getScroll() {
         ItemStack scroll = new ItemStack(Material.ENCHANTED_BOOK, 1);
@@ -31,6 +33,7 @@ public class BasicScroll {
         recipe.setIngredient('P', Material.PAPER);
         recipe.setIngredient('I', Material.IRON_INGOT);
 
+        itemScroll = scroll;
         return recipe;
     }
 }

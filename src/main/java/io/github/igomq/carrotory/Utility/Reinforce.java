@@ -1,5 +1,9 @@
 package io.github.igomq.carrotory.Utility;
 
+import io.github.igomq.carrotory.Recipe.AdvancedMultiScroll;
+import io.github.igomq.carrotory.Recipe.BasicMultiScroll;
+import io.github.igomq.carrotory.Recipe.BasicReinforceScroll;
+import io.github.igomq.carrotory.Recipe.StrongestMultiScroll;
 import net.minecraft.server.v1_16_R3.NBTTagCompound;
 import net.minecraft.server.v1_16_R3.NBTTagInt;
 import org.bukkit.ChatColor;
@@ -13,10 +17,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 import static io.github.igomq.carrotory.Info.Info.equipmentList;
 import static io.github.igomq.carrotory.Info.Info.percentage;
@@ -48,6 +49,23 @@ public class Reinforce {
         byte itemLevel = (byte)nmsItem.getTag().getInt("itemLevel");
         if (itemLevel >= percentage[itemType].length)
             { who.sendMessage(ChatColor.DARK_RED + "Reached Max Reinforce level!"); return reinforceItem; }
+
+        Object[] scrolls = {
+                BasicReinforceScroll.itemScroll,
+                BasicMultiScroll.itemScroll,
+                AdvancedMultiScroll.itemScroll,
+                StrongestMultiScroll.itemScroll
+        };
+
+        boolean isThereScroll = false;
+        for (Object o : scrolls) {
+            if (who.getInventory().contains((ItemStack)o)) {
+                isThereScroll = true;
+                who.getInventory().removeItem((ItemStack)o);
+            }
+        }
+
+        if (!isThereScroll) { who.sendMessage(ChatColor.DARK_RED + "You can't reinforce item without scroll!"); return reinforceItem; }
 
         NBTTagCompound itemCompound = nmsItem.getTag();
 
@@ -86,12 +104,9 @@ public class Reinforce {
         for (int i=0; i<(percentage[itemType].length-level); i++) notColoredStarBuilder.append("☆");
         String notColoredStar = notColoredStarBuilder.toString();
 
-        im.setLore(Collections.singletonList(
-                ChatColor.YELLOW + coloredStar + notColoredStar
-        ));
+        im.setLore(Collections.singletonList(ChatColor.RED + coloredStar + notColoredStar));
 
         item.setItemMeta(im);
-
         if(level==0) item.setType(Material.AIR);
         return item;
     }

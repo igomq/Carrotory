@@ -4,8 +4,7 @@ plugins {
 }
 
 group 'io.github.igomq'
-version '0.2.2'
-
+version '0.2.2-dev1'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 repositories {

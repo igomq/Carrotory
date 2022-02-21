@@ -12,6 +12,8 @@ import java.util.Collections;
 import static io.github.igomq.carrotory.Info.Scrolls.*;
 
 public class BasicReinforceScroll {
+    public static ItemStack itemScroll;
+
     public static ShapedRecipe getScroll() {
         ItemStack scroll = new ItemStack(Material.ENCHANTED_BOOK, 1);
         ItemMeta meta = scroll.getItemMeta();
@@ -29,6 +31,7 @@ public class BasicReinforceScroll {
         recipe.setIngredient('P', Material.PAPER);
         recipe.setIngredient('I', Material.LAPIS_LAZULI);
 
+        itemScroll = scroll;
         return recipe;
     }
 }

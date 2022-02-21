@@ -12,6 +12,7 @@ import java.util.Collections;
 import static io.github.igomq.carrotory.Info.Scrolls.*;
 
 public class AdvancedMultiScroll {
+    public static ItemStack itemScroll;
     public static ShapedRecipe getScroll() {
         ItemStack scroll = new ItemStack(Material.ENCHANTED_BOOK, 1);
         ItemMeta meta = scroll.getItemMeta();
@@ -29,6 +30,7 @@ public class AdvancedMultiScroll {
         recipe.setIngredient('P', Material.PAPER);
         recipe.setIngredient('I', Material.DIAMOND_BLOCK);
 
+        itemScroll = scroll;
         return recipe;
     }
 }

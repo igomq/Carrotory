@@ -12,6 +12,8 @@ import java.util.Collections;
 import static io.github.igomq.carrotory.Info.Scrolls.*;
 
 public class PowerfulScroll {
+    public static ItemStack itemScroll;
+
     public static ShapedRecipe getScroll() {
         ItemStack scroll = new ItemStack(Material.ENCHANTED_BOOK, 1);
         ItemMeta meta = scroll.getItemMeta();
@@ -37,6 +39,8 @@ public class PowerfulScroll {
         recipe.setIngredient('S', Material.NETHERITE_INGOT);
         recipe.setIngredient('P', Material.PAPER);
         recipe.setIngredient('I', ancientScroll);
+
+        itemScroll = scroll;
         return recipe;
     }
 }
