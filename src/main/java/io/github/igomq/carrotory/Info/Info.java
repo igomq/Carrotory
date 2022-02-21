@@ -8,10 +8,10 @@ public class Info {
                     Material.WOODEN_AXE,
                     Material.WOODEN_PICKAXE,
                     Material.WOODEN_SWORD,
-                    Material.LEATHER_BOOTS,
+                    Material.LEATHER_HELMET,
                     Material.LEATHER_CHESTPLATE,
                     Material.LEATHER_LEGGINGS,
-                    Material.LEATHER_HELMET
+                    Material.LEATHER_BOOTS
             },
             { // Stone, Chain Equipment
                     Material.STONE_AXE,
@@ -60,8 +60,7 @@ public class Info {
             }
     };
     public static final int[][][] percentage = {
-            /**
-             * How to read
+            /**  How to read
                 * percentage[] means case of percentage[][]
                 * percentage[][] means type of equipment
                 * percentage[][][] means level of equipment

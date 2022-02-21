@@ -5,14 +5,18 @@ import net.minecraft.server.v1_16_R3.NBTTagInt;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
+import java.util.UUID;
 
 import static io.github.igomq.carrotory.Info.Info.equipmentList;
 import static io.github.igomq.carrotory.Info.Info.percentage;
@@ -22,9 +26,10 @@ public class Reinforce {
     public ItemStack reinforce(ItemStack reinforceItem, Player who) {
         boolean isCorrectItem = false;
         int itemType = 0;
+        int equipmentType = 0;
         for (int i = 0; i<equipmentList.length; i++) {
             for (int j = 0; j<equipmentList[i].length; j++) {
-                if (equipmentList[i][j].equals(reinforceItem.getType())) { itemType = i; isCorrectItem = true; }
+                if (equipmentList[i][j].equals(reinforceItem.getType())) { itemType = i; equipmentType = j; isCorrectItem = true; }
             }
         }
         // ☆ : ★
@@ -64,7 +69,12 @@ public class Reinforce {
         }
 
         itemCompound.set("itemLevel", NBTTagInt.a(level));
+        nmsItem.setTag(itemCompound);
+
         ItemStack item = CraftItemStack.asBukkitCopy(nmsItem);
+        ItemMeta attributeMeta = addEffect(level, equipmentType, item);
+
+        item.setItemMeta(attributeMeta);
 
         ItemMeta im = nmsItem.asBukkitCopy().getItemMeta();
 
@@ -82,7 +92,7 @@ public class Reinforce {
 
         item.setItemMeta(im);
 
-        if (level == 0) item.setType(Material.AIR);
+        if(level==0) item.setType(Material.AIR);
         return item;
     }
 
@@ -104,5 +114,71 @@ public class Reinforce {
             else return 0;
         }
         return 2;
+    }
+
+    private ItemMeta addEffect(int itemLevel, int equipmentType, ItemStack itemStack) {
+        Attribute attribute;
+        String name;
+        String slot;
+        double amount;
+
+        switch (equipmentType) {
+            case 0:
+                attribute = Attribute.GENERIC_ATTACK_DAMAGE;
+                name = "generic.attack_damage";
+                slot = "HAND";
+                break;
+            case 1:
+                attribute = Attribute.GENERIC_LUCK;
+                name = "generic.luck";
+                slot = "HAND";
+                break;
+            case 2:
+                attribute = Attribute.GENERIC_ATTACK_SPEED;
+                name = "generic.attack_speed";
+                slot = "HAND";
+                break;
+            case 3:
+                attribute = Attribute.GENERIC_ARMOR_TOUGHNESS;
+                name = "generic.armor_toughness";
+                slot = "HEAD";
+                break;
+            case 4:
+                attribute = Attribute.GENERIC_MAX_HEALTH;
+                name = "generic.max_health";
+                slot = "CHEST";
+                break;
+            case 5:
+                attribute = Attribute.GENERIC_KNOCKBACK_RESISTANCE;
+                name = "generic.knockback_resistance";
+                slot = "LEGS";
+                break;
+            case 6:
+                attribute = Attribute.GENERIC_MOVEMENT_SPEED;
+                name = "generic.movement_speed";
+                slot = "FEET";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + equipmentType);
+        }
+
+//        switch (itemLevel) {
+//            case
+//        }
+
+        amount = 0.5;
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.addAttributeModifier(
+                attribute,
+                new AttributeModifier(
+                        UUID.randomUUID(),
+                        name,
+                        amount,
+                        AttributeModifier.Operation.valueOf("ADD_NUMBER"),
+                        EquipmentSlot.valueOf(slot)
+                )
+        );
+
+        return meta;
     }
 }
